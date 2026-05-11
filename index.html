@@ -1,0 +1,682 @@
+<html><head><style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #faf7f2;
+    --warm-nude: #e8ddd0;
+    --taupe: #c5b09a;
+    --deep-brown: #3a2e28;
+    --blush: #e8c4b0;
+    --gold: #b8956a;
+    --soft-black: #1a1410;
+    --muted: #8a7a6e;
+    --success-bg: #eaf3de;
+    --success-text: #3B6D11;
+  }
+
+  body { background: transparent; font-family: 'Jost', sans-serif; color: var(--deep-brown); }
+
+  .app-wrap { max-width: 680px; margin: 0 auto; }
+
+  .logo-header {
+    text-align: center;
+    padding: 2rem 1rem 1.5rem;
+    border-bottom: 0.5px solid var(--warm-nude);
+    margin-bottom: 1.5rem;
+  }
+
+  .logo-svg { width: 220px; height: auto; display: inline-block; }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--deep-brown);
+    margin-bottom: 0.25rem;
+  }
+
+  .section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.03em;
+  }
+
+  .form-section {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--warm-nude);
+    border-radius: var(--border-radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .chip {
+    padding: 6px 14px;
+    border-radius: 99px;
+    border: 0.5px solid var(--warm-nude);
+    background: transparent;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--deep-brown);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    outline: none;
+  }
+
+  .chip:hover { border-color: var(--gold); color: var(--gold); }
+  .chip.selected { background: var(--deep-brown); color: #faf7f2; border-color: var(--deep-brown); }
+  .chip.allergy-selected { background: #a32d2d; color: #faf7f2; border-color: #a32d2d; }
+
+  .divider { height: 0.5px; background: var(--warm-nude); margin: 1.25rem 0; }
+
+  .cta-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--deep-brown);
+    color: #faf7f2;
+    border: none;
+    border-radius: var(--border-radius-md);
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 0.5rem;
+  }
+
+  .cta-btn:hover { opacity: 0.85; }
+  .cta-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .results-wrap { display: none; margin-top: 1.5rem; }
+  .results-wrap.visible { display: block; }
+
+  .results-header {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 0.25rem;
+    color: var(--deep-brown);
+  }
+
+  .results-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.25rem; }
+
+  .category-block { margin-bottom: 1.5rem; }
+
+  .cat-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 0.5px solid var(--warm-nude);
+  }
+
+  .treatment-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--warm-nude);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .treatment-card.top-pick {
+    border-color: var(--gold);
+    border-width: 1.5px;
+  }
+
+  .tc-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f5ede3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+  }
+
+  .tc-body { flex: 1; }
+
+  .tc-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--deep-brown);
+    margin-bottom: 3px;
+  }
+
+  .tc-why { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  .badge {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 99px;
+    display: inline-block;
+    margin-bottom: 4px;
+  }
+
+  .badge-top { background: #faeeda; color: #854F0B; }
+  .badge-good { background: #eaf3de; color: #3B6D11; }
+
+  .no-results {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--muted);
+    font-size: 14px;
+    font-style: italic;
+  }
+
+  .reset-btn {
+    background: transparent;
+    border: 0.5px solid var(--warm-nude);
+    border-radius: var(--border-radius-md);
+    padding: 10px 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    margin-top: 1rem;
+    width: 100%;
+    transition: all 0.18s;
+  }
+
+  .reset-btn:hover { border-color: var(--deep-brown); color: var(--deep-brown); }
+
+  .concern-note {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 0.5rem;
+    line-height: 1.5;
+  }
+</style>
+
+</head><body><div class="app-wrap">
+  <h2 class="sr-only">The Hair Edit Salon — Skin Treatment Recommender</h2>
+
+  <div class="logo-header">
+    <svg class="logo-svg" viewBox="0 0 480 160" xmlns="http://www.w3.org/2000/svg">
+      <rect x="110" y="32" width="260" height="100" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+      <text x="240" y="118" text-anchor="middle" font-family="'Jost', sans-serif" font-size="17" letter-spacing="8" font-weight="400" fill="currentColor">SALON</text>
+      <text x="240" y="98" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="52" font-weight="300" font-style="italic" fill="currentColor">the hair edit</text>
+    </svg>
+    <div style="font-size:12px; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-top:0.75rem; font-weight:300">Skin Treatment Finder</div>
+  </div>
+
+  <div id="form-area">
+    <div class="form-section">
+      <span class="form-label">Your skin type</span>
+      <div class="chip-grid" id="skin-type-chips">
+        <button class="chip" data-group="skin" data-val="oily">Oily</button>
+        <button class="chip" data-group="skin" data-val="dry">Dry / Very Dry</button>
+        <button class="chip" data-group="skin" data-val="combination">Combination</button>
+        <button class="chip" data-group="skin" data-val="sensitive">Sensitive</button>
+        <button class="chip" data-group="skin" data-val="normal">Normal</button>
+        <button class="chip" data-group="skin" data-val="mature">Mature / Ageing</button>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <span class="form-label">Your skin concerns</span>
+      <p class="concern-note">Select all that apply</p>
+      <div class="chip-grid" style="margin-top:0.6rem" id="concern-chips">
+        <button class="chip" data-group="concern" data-val="tan">Sun tan / Dullness</button>
+        <button class="chip" data-group="concern" data-val="pigmentation">Pigmentation</button>
+        <button class="chip" data-group="concern" data-val="dehydration">Dehydration</button>
+        <button class="chip" data-group="concern" data-val="oiliness">Excess oil / Shine</button>
+        <button class="chip" data-group="concern" data-val="ageing">Fine lines / Ageing</button>
+        <button class="chip" data-group="concern" data-val="irritation">Redness / Irritation</button>
+        <button class="chip" data-group="concern" data-val="glow">Instant glow / Event ready</button>
+        <button class="chip" data-group="concern" data-val="acne">Acne / Breakouts</button>
+        <button class="chip" data-group="concern" data-val="texture">Uneven texture / Rough skin</button>
+        <button class="chip" data-group="concern" data-val="barrier">Damaged skin barrier</button>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <span class="form-label">Occasion / Timing</span>
+      <div class="chip-grid" id="occasion-chips">
+        <button class="chip" data-group="occasion" data-val="regular">Regular maintenance</button>
+        <button class="chip" data-group="occasion" data-val="bridal">Bridal / Pre-wedding</button>
+        <button class="chip" data-group="occasion" data-val="event">Upcoming event / Party</button>
+        <button class="chip" data-group="occasion" data-val="first">First-time facial</button>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <span class="form-label">Allergies / Ingredients to avoid</span>
+      <p class="concern-note">Select any you are allergic or sensitive to</p>
+      <div class="chip-grid" style="margin-top:0.6rem" id="allergy-chips">
+        <button class="chip" data-group="allergy" data-val="papaya">Papaya</button>
+        <button class="chip" data-group="allergy" data-val="vitamin_c">Vitamin C / Citrus</button>
+        <button class="chip" data-group="allergy" data-val="wine">Red Wine extracts</button>
+        <button class="chip" data-group="allergy" data-val="diamond">Diamond / Exfoliants</button>
+        <button class="chip" data-group="allergy" data-val="coconut">Coconut / Nut oils</button>
+        <button class="chip" data-group="allergy" data-val="turmeric">Turmeric / Saffron</button>
+        <button class="chip" data-group="allergy" data-val="avocado">Avocado</button>
+        <button class="chip" data-group="allergy" data-val="rice">Rice / Grain extracts</button>
+        <button class="chip" data-group="allergy" data-val="oxygen">Oxygen / Ozone treatments</button>
+      </div>
+    </div>
+
+    <button class="cta-btn" id="find-btn">Find My Treatments</button>
+  </div>
+
+  <div class="results-wrap" id="results-wrap">
+    <div class="results-header">Your personalised picks</div>
+    <div class="results-sub" id="results-sub"></div>
+    <div id="results-content"></div>
+    <button class="reset-btn" id="reset-btn">Start over</button>
+  </div>
+</div>
+
+<script>
+const state = { skin: null, concerns: new Set(), occasion: null, allergies: new Set() };
+
+const TREATMENTS = {
+  cleanups: [
+    {
+      name: "Detan Clean-up",
+      icon: "☀",
+      desc: "Removes sun tan, dullness & uneven skin tone. Instant freshness & glow.",
+      skins: ["oily","combination","normal","sensitive","dry","mature"],
+      concerns: ["tan","oiliness","glow"],
+      occasions: ["regular","event","first"],
+      allergies: [],
+      boost: ["tan"],
+      note: "For sensitive skin, mild fruit-based detan used."
+    },
+    {
+      name: "Papaya Glow Clean-up",
+      icon: "🍑",
+      desc: "Fruit-based gentle exfoliation & brightening. Very mild — great for first-timers.",
+      skins: ["normal","dry","sensitive","mature"],
+      concerns: ["tan","glow","texture"],
+      occasions: ["regular","first","event"],
+      allergies: ["papaya"],
+      boost: ["glow","texture"],
+      note: "Ideal for teenagers & first-time clients."
+    },
+    {
+      name: "Diamond Radiance Clean-up",
+      icon: "💎",
+      desc: "Premium polish for instant luminous glow. Party-ready radiance.",
+      skins: ["normal","dry","combination","mature"],
+      concerns: ["glow","pigmentation","tan","texture"],
+      occasions: ["event","bridal","regular"],
+      allergies: ["diamond"],
+      boost: ["glow","event"],
+      note: "Not for very sensitive or active acne skin."
+    },
+    {
+      name: "Oxy Refresh Clean-up",
+      icon: "💧",
+      desc: "Oxygen-infused hydration for fresh, plump, dewy skin.",
+      skins: ["dry","sensitive","combination","normal"],
+      concerns: ["dehydration","glow","barrier","irritation"],
+      occasions: ["event","bridal","regular"],
+      allergies: ["oxygen"],
+      boost: ["dehydration","barrier"],
+      note: "Great for pollution-damaged or stressed skin."
+    },
+    {
+      name: "Skin Brightening Clean-up",
+      icon: "✨",
+      desc: "Enhances natural glow, evens skin tone & reduces dullness.",
+      skins: ["oily","combination","dry","normal","sensitive","mature"],
+      concerns: ["tan","pigmentation","glow","oiliness"],
+      occasions: ["regular","event","first"],
+      allergies: [],
+      boost: ["pigmentation","glow"],
+      note: "Can be customised for sensitive skin."
+    },
+    {
+      name: "Derma Repair Clean-up",
+      icon: "🌿",
+      desc: "Heals & repairs damaged skin barrier, soothes sensitivity & restores skin health.",
+      skins: ["sensitive","dry","normal"],
+      concerns: ["barrier","irritation","dehydration"],
+      occasions: ["regular","first"],
+      allergies: [],
+      boost: ["barrier","irritation"],
+      note: "Best when skin needs healing, not harsh treatment."
+    }
+  ],
+  facials: [
+    {
+      name: "Belle Silk Detan",
+      icon: "🌸",
+      desc: "Premium tan removal with silky smooth finish and nourishing glow.",
+      skins: ["normal","combination","dry","mature","oily"],
+      concerns: ["tan","texture","glow"],
+      occasions: ["regular","event"],
+      allergies: [],
+      boost: ["tan"],
+      note: "Use cautiously on very sensitive skin."
+    },
+    {
+      name: "Belle Silk Hydra Boost",
+      icon: "💧",
+      desc: "Deep moisture infusion for a soft, creamy, radiant finish.",
+      skins: ["dry","sensitive","normal","combination"],
+      concerns: ["dehydration","glow","barrier"],
+      occasions: ["regular","event","bridal"],
+      allergies: [],
+      boost: ["dehydration"],
+      note: "Perfect for AC/summer dehydration or pre-event."
+    },
+    {
+      name: "Belle Silk Red Wine",
+      icon: "🍷",
+      desc: "Luxury anti-ageing treatment with antioxidants for youthful glow.",
+      skins: ["dry","mature","normal","combination"],
+      concerns: ["ageing","glow","pigmentation"],
+      occasions: ["regular","bridal","event"],
+      allergies: ["wine"],
+      boost: ["ageing"],
+      note: "Focused on repair + radiance + fine lines."
+    },
+    {
+      name: "Belle Silk Vitamin C",
+      icon: "🍊",
+      desc: "Brightening treatment that reduces pigmentation & boosts clarity.",
+      skins: ["normal","combination","oily","dry","mature"],
+      concerns: ["pigmentation","tan","glow"],
+      occasions: ["regular","event"],
+      allergies: ["vitamin_c"],
+      boost: ["pigmentation"],
+      note: "Lightweight & non-greasy, suits oily skin too."
+    }
+  ],
+  luxury: [
+    {
+      name: "Kapeki Gensyl (Papaya & Marshmallow)",
+      icon: "☁",
+      desc: "Soft, soothing glow treatment. Papaya exfoliates, Marshmallow deeply hydrates.",
+      skins: ["sensitive","dry","normal"],
+      concerns: ["glow","dehydration","barrier"],
+      occasions: ["regular","first"],
+      allergies: ["papaya"],
+      boost: ["barrier","dehydration"],
+      note: "Gentle enough for the most sensitive skin."
+    },
+    {
+      name: "Kanpeki Dermasyl Blanch",
+      icon: "🌸",
+      desc: "Whitening & brightening with tone correction and luminous finish.",
+      skins: ["normal","combination","oily","mature"],
+      concerns: ["pigmentation","tan","glow"],
+      occasions: ["regular","event","bridal"],
+      allergies: [],
+      boost: ["pigmentation","tan"],
+      note: "Patch test recommended for very sensitive skin."
+    },
+    {
+      name: "Kanpeki Korean Glass Glow",
+      icon: "🇰🇷",
+      desc: "Hydration-focused glass skin treatment. Dewy, poreless & ultra-radiant.",
+      skins: ["dry","normal","combination","sensitive"],
+      concerns: ["dehydration","texture","glow"],
+      occasions: ["event","bridal","regular"],
+      allergies: [],
+      boost: ["texture","glow"],
+      note: "Not ideal for very oily acne-prone skin."
+    },
+    {
+      name: "Belle Silk Rice Water",
+      icon: "🍚",
+      desc: "Brightens, tightens pores & gives a soft glass-like glow.",
+      skins: ["oily","combination","normal"],
+      concerns: ["oiliness","texture","pigmentation","glow"],
+      occasions: ["regular","event"],
+      allergies: ["rice"],
+      boost: ["oiliness","texture"],
+      note: "Very dry skin: combine with hydration."
+    },
+    {
+      name: "Belle Silk Korean Glass",
+      icon: "💎",
+      desc: "Premium hydration + glow. Crystal-clear, smooth, poreless & dewy.",
+      skins: ["dry","normal","combination","sensitive"],
+      concerns: ["dehydration","texture","glow"],
+      occasions: ["event","bridal","regular"],
+      allergies: [],
+      boost: ["glow","texture"],
+      note: "Not for very oily acne-prone skin."
+    },
+    {
+      name: "Belle Silk Bridal Glow",
+      icon: "👰",
+      desc: "All-in-one bridal treatment: cleansing, hydration, brightening & polishing.",
+      skins: ["dry","oily","combination","normal","sensitive","mature"],
+      concerns: ["glow","pigmentation","texture","dehydration"],
+      occasions: ["bridal","event"],
+      allergies: [],
+      boost: ["bridal","glow"],
+      note: "Customised to your skin type. Camera-ready finish."
+    },
+    {
+      name: "Belle Silk O3 Whitening",
+      icon: "🌬",
+      desc: "Oxygen-based brightening to purify, brighten & refresh skin instantly.",
+      skins: ["oily","combination","normal","mature"],
+      concerns: ["tan","pigmentation","oiliness","glow"],
+      occasions: ["regular","event"],
+      allergies: ["oxygen"],
+      boost: ["acne","oiliness"],
+      note: "Very dry or sensitive skin: add hydration step."
+    }
+  ],
+  skinora: [
+    {
+      name: "Skinora Citron & Seabuckthorn Mattifying",
+      icon: "🍋",
+      desc: "Oil-control & skin-balancing treatment for a clean matte finish.",
+      skins: ["oily","combination"],
+      concerns: ["oiliness","acne","texture"],
+      occasions: ["regular","event"],
+      allergies: ["vitamin_c"],
+      boost: ["oiliness","acne"],
+      note: "Ideal for summer or clients with excess shine."
+    },
+    {
+      name: "Skinora Kakadu Plum & Lakadong Turmeric Radiance",
+      icon: "🌼",
+      desc: "Intense Vitamin C glow + turmeric healing for radiant, even skin.",
+      skins: ["normal","combination","sensitive","mature","dry"],
+      concerns: ["pigmentation","tan","glow"],
+      occasions: ["regular","event"],
+      allergies: ["vitamin_c","turmeric"],
+      boost: ["pigmentation","tan"],
+      note: "Very soothing ingredients — suitable for sensitive skin too."
+    },
+    {
+      name: "Skinora Tucuma Butter & Coconut Milk Hydra",
+      icon: "🥥",
+      desc: "Deep nourishment & intense hydration with rich fatty acids.",
+      skins: ["dry","sensitive","normal"],
+      concerns: ["dehydration","barrier","texture"],
+      occasions: ["regular"],
+      allergies: ["coconut"],
+      boost: ["dehydration","barrier"],
+      note: "Perfect for winter dryness or AC dehydration damage."
+    },
+    {
+      name: "Skinora Snow Algae & Saffron Age Control",
+      icon: "❄",
+      desc: "Anti-ageing & skin rejuvenation with cell regeneration & radiance.",
+      skins: ["mature","dry","normal"],
+      concerns: ["ageing","glow","dehydration","texture"],
+      occasions: ["regular","bridal"],
+      allergies: ["turmeric"],
+      boost: ["ageing"],
+      note: "Preventive anti-ageing for normal skin too."
+    },
+    {
+      name: "Skinora Avocado & Oat Calming",
+      icon: "🥑",
+      desc: "Soothing, repair-focused treatment to calm, nourish & restore skin barrier.",
+      skins: ["sensitive","dry","normal"],
+      concerns: ["barrier","irritation","dehydration"],
+      occasions: ["regular","first"],
+      allergies: ["avocado"],
+      boost: ["barrier","irritation"],
+      note: "Ideal after waxing, bleach, or sun exposure."
+    }
+  ]
+};
+
+const CAT_LABELS = {
+  cleanups: "Clean-ups",
+  facials: "Facials",
+  luxury: "Luxury Facials (with Moulding Mask)",
+  skinora: "Facial Treatments — Skinora"
+};
+
+function scoreTreatment(t, skin, concerns, occasion, allergies) {
+  if (allergies.size > 0) {
+    for (const a of allergies) {
+      if (t.allergies.includes(a)) return null;
+    }
+  }
+  if (skin && !t.skins.includes(skin)) return null;
+
+  let score = 0;
+  if (skin && t.skins.includes(skin)) score += 2;
+  if (occasion && t.occasions.includes(occasion)) score += 2;
+
+  for (const c of concerns) {
+    if (t.concerns.includes(c)) score += 3;
+    if (t.boost.includes(c)) score += 2;
+  }
+
+  if (occasion === "bridal" && t.boost.includes("bridal")) score += 5;
+  if (occasion === "event" && t.boost.includes("glow")) score += 2;
+  if (occasion === "first" && t.skins.includes("sensitive")) score += 1;
+
+  return score;
+}
+
+document.querySelectorAll('.chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const group = btn.dataset.group;
+    const val = btn.dataset.val;
+
+    if (group === 'skin' || group === 'occasion') {
+      document.querySelectorAll(`.chip[data-group="${group}"]`).forEach(b => b.classList.remove('selected'));
+      btn.classList.toggle('selected');
+      state[group] = btn.classList.contains('selected') ? val : null;
+    } else if (group === 'concern') {
+      btn.classList.toggle('selected');
+      if (btn.classList.contains('selected')) state.concerns.add(val);
+      else state.concerns.delete(val);
+    } else if (group === 'allergy') {
+      btn.classList.toggle('selected');
+      btn.classList.toggle('allergy-selected');
+      if (btn.classList.contains('allergy-selected')) state.allergies.add(val);
+      else state.allergies.delete(val);
+    }
+  });
+});
+
+document.getElementById('find-btn').addEventListener('click', () => {
+  const { skin, concerns, occasion, allergies } = state;
+  if (!skin && concerns.size === 0) {
+    alert('Please select at least your skin type or a concern to get recommendations.');
+    return;
+  }
+
+  const content = document.getElementById('results-content');
+  content.innerHTML = '';
+
+  let totalFound = 0;
+
+  for (const [cat, treatments] of Object.entries(TREATMENTS)) {
+    const scored = treatments
+      .map(t => ({ t, score: scoreTreatment(t, skin, concerns, occasion, allergies) }))
+      .filter(x => x.score !== null && x.score > 0)
+      .sort((a, b) => b.score - a.score);
+
+    if (scored.length === 0) continue;
+    totalFound += scored.length;
+
+    const block = document.createElement('div');
+    block.className = 'category-block';
+    block.innerHTML = `<div class="cat-label">${CAT_LABELS[cat]}</div>`;
+
+    scored.forEach(({ t, score }, i) => {
+      const card = document.createElement('div');
+      card.className = 'treatment-card' + (i === 0 && score > 4 ? ' top-pick' : '');
+      const badgeHtml = i === 0 && score > 4
+        ? `<span class="badge badge-top">Best match</span><br>`
+        : score > 2 ? `<span class="badge badge-good">Good match</span><br>` : '';
+
+      card.innerHTML = `
+        <div class="tc-icon">${t.icon}</div>
+        <div class="tc-body">
+          ${badgeHtml}
+          <div class="tc-name">${t.name}</div>
+          <div class="tc-why">${t.desc}</div>
+          ${t.note ? `<div class="tc-why" style="margin-top:4px; font-style:italic;">${t.note}</div>` : ''}
+        </div>
+      `;
+      block.appendChild(card);
+    });
+
+    content.appendChild(block);
+  }
+
+  const sub = [];
+  if (skin) sub.push(skin.replace('_',' ') + ' skin');
+  if (concerns.size > 0) sub.push([...concerns].join(', ').replace(/_/g,' '));
+  document.getElementById('results-sub').textContent = `Based on: ${sub.join(' · ')}${allergies.size > 0 ? ' — allergies excluded' : ''}`;
+
+  if (totalFound === 0) {
+    content.innerHTML = '<div class="no-results">No treatments matched your profile. Try adjusting your selections or speak with our team for a personalised consultation.</div>';
+  }
+
+  document.getElementById('form-area').style.display = 'none';
+  const rw = document.getElementById('results-wrap');
+  rw.classList.add('visible');
+  rw.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+  state.skin = null;
+  state.concerns.clear();
+  state.occasion = null;
+  state.allergies.clear();
+  document.querySelectorAll('.chip').forEach(b => { b.classList.remove('selected','allergy-selected'); });
+  document.getElementById('results-wrap').classList.remove('visible');
+  document.getElementById('form-area').style.display = 'block';
+});
+</script>
+</body></html>

@@ -1,682 +1,644 @@
-<html><head><style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hair Edit Salon — Skin Treatment Finder</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rose:#f9e8ec;
+  --rose-mid:#f0c5cf;
+  --rose-dark:#c4788a;
+  --rose-deep:#8b3f52;
+  --lavender:#ede8f9;
+  --lavender-mid:#c9bef0;
+  --lavender-dark:#7860c4;
+  --mint:#e4f4ee;
+  --mint-mid:#a8dfc8;
+  --mint-dark:#3a9e75;
+  --peach:#fdf0e8;
+  --peach-mid:#f5cab0;
+  --peach-dark:#c4743a;
+  --butter:#fdf8e4;
+  --butter-mid:#f0dfa0;
+  --butter-dark:#9a8030;
+  --ink:#2a1f2d;
+  --ink-mid:#5a4860;
+  --ink-light:#9a8aa0;
+  --white:#fffcfe;
+  --card-bg:#fffcfe;
+  --page-bg:#fdf5f7;
+}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--page-bg);
+  color:var(--ink);
+  min-height:100vh;
+  padding-bottom:4rem;
+}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* Decorative petal blobs */
+body::before{
+  content:'';
+  position:fixed;
+  top:-80px;right:-80px;
+  width:320px;height:320px;
+  background:var(--rose);
+  border-radius:60% 40% 70% 30% / 50% 60% 40% 50%;
+  opacity:0.55;
+  z-index:0;
+  pointer-events:none;
+}
+body::after{
+  content:'';
+  position:fixed;
+  bottom:-60px;left:-60px;
+  width:260px;height:260px;
+  background:var(--lavender);
+  border-radius:40% 60% 30% 70% / 60% 40% 60% 40%;
+  opacity:0.5;
+  z-index:0;
+  pointer-events:none;
+}
 
-  :root {
-    --cream: #faf7f2;
-    --warm-nude: #e8ddd0;
-    --taupe: #c5b09a;
-    --deep-brown: #3a2e28;
-    --blush: #e8c4b0;
-    --gold: #b8956a;
-    --soft-black: #1a1410;
-    --muted: #8a7a6e;
-    --success-bg: #eaf3de;
-    --success-text: #3B6D11;
-  }
+.page-wrap{
+  max-width:720px;
+  margin:0 auto;
+  padding:0 1.25rem;
+  position:relative;
+  z-index:1;
+}
 
-  body { background: transparent; font-family: 'Jost', sans-serif; color: var(--deep-brown); }
+/* ── HEADER ── */
+.header{
+  text-align:center;
+  padding:2.5rem 1rem 1.75rem;
+}
+.logo-img{
+  width:260px;
+  height:auto;
+  display:inline-block;
+  mix-blend-mode:multiply;
+}
+.header-tagline{
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;
+  font-style:italic;
+  color:var(--rose-dark);
+  letter-spacing:0.06em;
+  margin-top:0.6rem;
+}
 
-  .app-wrap { max-width: 680px; margin: 0 auto; }
+/* ── PROGRESS BAR ── */
+.progress-bar{
+  display:flex;
+  gap:6px;
+  margin-bottom:2rem;
+  padding:0 0.25rem;
+}
+.progress-step{
+  height:4px;
+  flex:1;
+  border-radius:99px;
+  background:var(--rose-mid);
+  transition:background 0.3s;
+}
+.progress-step.done{background:var(--rose-dark);}
+.progress-step.active{background:var(--rose-dark);opacity:0.5;}
 
-  .logo-header {
-    text-align: center;
-    padding: 2rem 1rem 1.5rem;
-    border-bottom: 0.5px solid var(--warm-nude);
-    margin-bottom: 1.5rem;
-  }
+/* ── SECTION CARD ── */
+.section-card{
+  background:var(--card-bg);
+  border:1px solid var(--rose-mid);
+  border-radius:20px;
+  padding:1.5rem 1.5rem;
+  margin-bottom:1.1rem;
+}
+.section-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:1.1rem;
+}
+.section-icon{
+  width:34px;height:34px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+  flex-shrink:0;
+}
+.si-rose{background:var(--rose);}
+.si-lavender{background:var(--lavender);}
+.si-mint{background:var(--mint);}
+.si-peach{background:var(--peach);}
+.si-butter{background:var(--butter);}
+.section-title-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;
+  font-weight:500;
+  color:var(--ink);
+}
+.section-sub{
+  font-size:12px;
+  color:var(--ink-light);
+  margin-top:1px;
+}
 
-  .logo-svg { width: 220px; height: auto; display: inline-block; }
+/* ── CHIPS ── */
+.chip-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{
+  padding:7px 15px;
+  border-radius:99px;
+  border:1px solid var(--rose-mid);
+  background:var(--white);
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  color:var(--ink-mid);
+  cursor:pointer;
+  transition:all 0.18s;
+  outline:none;
+  white-space:nowrap;
+}
+.chip:hover{border-color:var(--rose-dark);color:var(--rose-deep);}
+.chip.sel-rose{background:var(--rose);border-color:var(--rose-dark);color:var(--rose-deep);font-weight:500;}
+.chip.sel-lavender{background:var(--lavender);border-color:var(--lavender-dark);color:#4a35a0;font-weight:500;}
+.chip.sel-mint{background:var(--mint);border-color:var(--mint-dark);color:#1f6e4e;font-weight:500;}
+.chip.sel-peach{background:var(--peach);border-color:var(--peach-dark);color:var(--peach-dark);font-weight:500;}
+.chip.sel-butter{background:var(--butter);border-color:var(--butter-dark);color:var(--butter-dark);font-weight:500;}
+.chip.sel-allergy{background:#fce8ec;border-color:#c4788a;color:#8b3f52;font-weight:500;}
 
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    color: var(--deep-brown);
-    margin-bottom: 0.25rem;
-  }
+/* ── TREATMENT TYPE CARDS ── */
+.type-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:10px;
+}
+.type-card{
+  border:1px solid var(--rose-mid);
+  border-radius:14px;
+  padding:1rem 0.75rem;
+  text-align:center;
+  cursor:pointer;
+  background:var(--white);
+  transition:all 0.18s;
+}
+.type-card:hover{border-color:var(--rose-dark);}
+.type-card.sel-type{border-color:var(--rose-dark);background:var(--rose);}
+.type-card-icon{font-size:22px;margin-bottom:6px;}
+.type-card-name{font-size:13px;font-weight:500;color:var(--ink);line-height:1.3;}
+.type-card-sub{font-size:11px;color:var(--ink-light);margin-top:3px;}
+.type-card.sel-type .type-card-name{color:var(--rose-deep);}
 
-  .section-sub {
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 300;
-    margin-bottom: 1.25rem;
-    letter-spacing: 0.03em;
-  }
+/* ── CTA ── */
+.cta-wrap{margin-top:1.5rem;text-align:center;}
+.cta-btn{
+  display:inline-block;
+  padding:14px 40px;
+  background:linear-gradient(135deg,var(--rose-dark),var(--lavender-dark));
+  color:#fff;
+  border:none;
+  border-radius:99px;
+  font-family:'DM Sans',sans-serif;
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:0.06em;
+  cursor:pointer;
+  transition:opacity 0.2s,transform 0.15s;
+  box-shadow:0 4px 18px rgba(196,120,138,0.3);
+}
+.cta-btn:hover{opacity:0.9;transform:translateY(-1px);}
+.cta-btn:active{transform:scale(0.98);}
 
-  .form-section {
-    background: var(--color-background-primary);
-    border: 0.5px solid var(--warm-nude);
-    border-radius: var(--border-radius-lg);
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1rem;
-  }
+/* ── RESULTS ── */
+#results-section{display:none;}
+#results-section.show{display:block;}
 
-  .form-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.6rem;
-    display: block;
-  }
+.results-hero{
+  text-align:center;
+  padding:1.5rem 0 1.25rem;
+}
+.results-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;
+  font-weight:400;
+  color:var(--ink);
+  margin-bottom:0.3rem;
+}
+.results-meta{
+  font-size:13px;
+  color:var(--ink-light);
+  line-height:1.5;
+}
 
-  .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.cat-section{margin-bottom:2rem;}
+.cat-pill{
+  display:inline-block;
+  padding:4px 14px;
+  border-radius:99px;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  margin-bottom:0.85rem;
+}
+.cp-rose{background:var(--rose);color:var(--rose-deep);}
+.cp-lavender{background:var(--lavender);color:#4a35a0;}
+.cp-mint{background:var(--mint);color:#1f6e4e;}
+.cp-peach{background:var(--peach);color:var(--peach-dark);}
 
-  .chip {
-    padding: 6px 14px;
-    border-radius: 99px;
-    border: 0.5px solid var(--warm-nude);
-    background: transparent;
-    font-family: 'Jost', sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--deep-brown);
-    cursor: pointer;
-    transition: all 0.18s ease;
-    outline: none;
-  }
+.treatment-card{
+  background:var(--card-bg);
+  border:1px solid var(--rose-mid);
+  border-radius:16px;
+  padding:1.1rem 1.25rem;
+  margin-bottom:0.75rem;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  transition:border-color 0.2s;
+}
+.treatment-card.top{
+  border-color:var(--rose-dark);
+  border-width:1.5px;
+}
+.tc-orb{
+  width:40px;height:40px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+  flex-shrink:0;
+}
+.orb-rose{background:var(--rose);}
+.orb-lavender{background:var(--lavender);}
+.orb-mint{background:var(--mint);}
+.orb-peach{background:var(--peach);}
+.orb-butter{background:var(--butter);}
 
-  .chip:hover { border-color: var(--gold); color: var(--gold); }
-  .chip.selected { background: var(--deep-brown); color: #faf7f2; border-color: var(--deep-brown); }
-  .chip.allergy-selected { background: #a32d2d; color: #faf7f2; border-color: #a32d2d; }
+.tc-body{flex:1;min-width:0;}
+.tc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px;}
+.tc-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px;
+  font-weight:500;
+  color:var(--ink);
+  line-height:1.2;
+}
+.badge{
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:0.07em;
+  text-transform:uppercase;
+  padding:3px 10px;
+  border-radius:99px;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.badge-best{background:var(--butter);color:var(--butter-dark);}
+.badge-good{background:var(--mint);color:var(--mint-dark);}
+.tc-desc{font-size:13px;color:var(--ink-mid);line-height:1.5;margin-bottom:4px;}
+.tc-note{font-size:12px;color:var(--ink-light);font-style:italic;line-height:1.4;}
 
-  .divider { height: 0.5px; background: var(--warm-nude); margin: 1.25rem 0; }
+.no-results{
+  text-align:center;
+  padding:3rem 1rem;
+  color:var(--ink-light);
+  font-size:14px;
+  font-style:italic;
+  background:var(--card-bg);
+  border-radius:16px;
+  border:1px solid var(--rose-mid);
+}
 
-  .cta-btn {
-    width: 100%;
-    padding: 14px;
-    background: var(--deep-brown);
-    color: #faf7f2;
-    border: none;
-    border-radius: var(--border-radius-md);
-    font-family: 'Jost', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    margin-top: 0.5rem;
-  }
+.reset-btn{
+  display:block;
+  width:100%;
+  margin-top:1.5rem;
+  padding:13px;
+  background:transparent;
+  border:1px solid var(--rose-mid);
+  border-radius:99px;
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  color:var(--ink-light);
+  cursor:pointer;
+  transition:all 0.18s;
+}
+.reset-btn:hover{border-color:var(--rose-dark);color:var(--rose-deep);}
 
-  .cta-btn:hover { opacity: 0.85; }
-  .cta-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  .results-wrap { display: none; margin-top: 1.5rem; }
-  .results-wrap.visible { display: block; }
-
-  .results-header {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    font-weight: 400;
-    margin-bottom: 0.25rem;
-    color: var(--deep-brown);
-  }
-
-  .results-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.25rem; }
-
-  .category-block { margin-bottom: 1.5rem; }
-
-  .cat-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 0.5px solid var(--warm-nude);
-  }
-
-  .treatment-card {
-    background: var(--color-background-primary);
-    border: 0.5px solid var(--warm-nude);
-    border-radius: var(--border-radius-lg);
-    padding: 1rem 1.25rem;
-    margin-bottom: 0.6rem;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
-
-  .treatment-card.top-pick {
-    border-color: var(--gold);
-    border-width: 1.5px;
-  }
-
-  .tc-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: #f5ede3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-size: 16px;
-  }
-
-  .tc-body { flex: 1; }
-
-  .tc-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--deep-brown);
-    margin-bottom: 3px;
-  }
-
-  .tc-why { font-size: 12px; color: var(--muted); line-height: 1.5; }
-
-  .badge {
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 99px;
-    display: inline-block;
-    margin-bottom: 4px;
-  }
-
-  .badge-top { background: #faeeda; color: #854F0B; }
-  .badge-good { background: #eaf3de; color: #3B6D11; }
-
-  .no-results {
-    text-align: center;
-    padding: 2rem 1rem;
-    color: var(--muted);
-    font-size: 14px;
-    font-style: italic;
-  }
-
-  .reset-btn {
-    background: transparent;
-    border: 0.5px solid var(--warm-nude);
-    border-radius: var(--border-radius-md);
-    padding: 10px 20px;
-    font-family: 'Jost', sans-serif;
-    font-size: 13px;
-    color: var(--muted);
-    cursor: pointer;
-    margin-top: 1rem;
-    width: 100%;
-    transition: all 0.18s;
-  }
-
-  .reset-btn:hover { border-color: var(--deep-brown); color: var(--deep-brown); }
-
-  .concern-note {
-    font-size: 12px;
-    color: var(--muted);
-    font-style: italic;
-    margin-top: 0.5rem;
-    line-height: 1.5;
-  }
+/* Floating petal accents */
+.petal-accent{
+  position:absolute;
+  pointer-events:none;
+  opacity:0.18;
+  z-index:0;
+}
 </style>
+</head>
+<body>
+<div class="page-wrap">
 
-</head><body><div class="app-wrap">
-  <h2 class="sr-only">The Hair Edit Salon — Skin Treatment Recommender</h2>
-
-  <div class="logo-header">
-    <svg class="logo-svg" viewBox="0 0 480 160" xmlns="http://www.w3.org/2000/svg">
-      <rect x="110" y="32" width="260" height="100" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
-      <text x="240" y="118" text-anchor="middle" font-family="'Jost', sans-serif" font-size="17" letter-spacing="8" font-weight="400" fill="currentColor">SALON</text>
-      <text x="240" y="98" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="52" font-weight="300" font-style="italic" fill="currentColor">the hair edit</text>
-    </svg>
-    <div style="font-size:12px; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-top:0.75rem; font-weight:300">Skin Treatment Finder</div>
+  <div class="header">
+    <img src="data:image/jpeg;base64,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DVtoNW2g1baDVtoNW2g1baDVtoNXi74Vu5Y+QAAAAAAAAAAAAAAAAAAAAAAARlGQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGUZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEZRkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARlGQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGUZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEZRkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARlGQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGUZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIAAwAAACHjDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDCgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAABTjDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDSgAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAwABSgAAAAAAAAAAwgAAAAAAAAAAAAAAAAAAAAAABSgAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAABByABSgAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAABSgAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAATQCzQABSgAAAAAAAADCgAAAAAAAAAAAAAAAAAAAAAAABSgAAAACgAAABwAAAAAAAAAAACgAAAAAAAAAABSgQxAABCAAAAAAAABQAAAAAAAAAAAAAAAAAAAAAAAAABCgAAABCAAAAQwAAAAAAAAAAACgAAAAAAAAAAAihCgAAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADyAAABAAAAAAAAAAAAACgAAAAAAAwQQQAQDQgAAAgQQAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARCAggxQAQAwAAAwAwgACgAAAAADCCACCARQDDCADCDAAAAAATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBzCBDAjDBCDCADAAAAACgAAAAAAAAABCBTAAAAAAAAAAAAAACgAAAAAAAAAAAAAAwgAAAAAAAAAAAAAABBAAAAQwAAAAAAAAAAAACgAAAAAAAAABwgCAAAAAAQgAAAAABwgAAAAAAAAAAAAAgiAAAAAAAAAQgAAAAACAAAASAAAAAAAAAAAAACgAAAAAAAAACgDgAAAAAACgAAAAADSAAAAAAQAAARgACiiAAAAAAAAQhAAAAwBxSwAACgAAAAAAAAAAAACgAAAAAAAAAQgQQAAAAAAwAAAAAADAAAAAABjAAACABBghCQAAAAABwSAABDhwgAAAAwAAAAAAAAAAAAACgAAAAAAAAATgQAAAAAASAARAAAACAAAAATBQgAAAgADxRSABTgAAATgABhABACSABTAAAAAAAAAAAAAACgAAAAAAAABAhAxQQADygACTAAABSgSAAAiQTgASyABSABQACigAARAAASSDhABQAQQAAAAAAAAAAAAAACgAAAAAAAABSgQwBwBSigARgAAACTxBABByAAgDhABBAADgATAAAAAgARSQAxwDgDhQgAAAAAAAAAAAAACgAAAAAAAAAgDQACwygQQDAAAAABwQDwwBAADQQgRjAABAwDQAAABAhySDTzAgDAwACgAAAAAAAAAAAAACgAAAAAAAARxAQABCAAACAAAAAAAiABBAAAAAAAAAAAABCggAAAAACACAAAASAAAAAwAAAAAAAAAAAAAACgAAAAAAAASgBAAAAAAAAAAAAABQQAAAAAAAAAAAAAAABByAAAAAAAAAAAAACgAAACQAAAAAAAAAAAAAACgAAAAAAABShSgAAAAAAAAAAAAACgAAAAAAAAAAAAAAAADAAAAAAAAAAAAABAAAAABAAAAAAAAAAAAAAACgAAAAAAABSBAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCAAAAAAAAAAAAAAACgAAAAAAABgAAAAAAAABSgAAAAAAAAAABzCBChSADRSQSBCAAAAAAAAABSgBwAAABgAAAAAAAAAAAAAAACgAAAAAAABgAAAAAAAABSgAAAAAAAAAABCgBBhQBCACBTgAAAAAAAAAABSgDwgAACQAAAAAAAAAAAAAAACgAAAAAAABgAAAAAAAABSgAAAAAAAAAAAACTiBwACQwBThAAAAAAAAAABSgAAAAACgAAAAAAAAAAAAAAACgAAAAAAAQAAAAAAAAABSgAAAAAAAAAAADBABDDDBDABCAAAAAAAAAAABSgAAAAATQAAAAAAAAAAAAAAACgAAAAAABQAAAAAAAAABSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABSgAAAABCgAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAABSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABSgAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAABAwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwygAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/9oADAMBAAIAAwAAABBzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzxzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzziQwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwxjzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzDzyhTzzzzzzzzzzTzzzzzzzzzzzzzzzzzzzzzzzyjzzzzzzzzzzzzzzzzzzzzzzzxzzzzzzzzzzzzzzygzTyhTzzzzzzzzzzxzzzzzzzzzzzzzzzzzzzzzzzyjzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzhzzgjzyhTzzzzzzzzywTzzzzzzzzzzzzzzzzzzzzzzzyjzzzzzwjzzzwDzzzzzzzzzzzzzzzzzzzzzzzyxzzzTzyhTzzzzzzzzijzzzzzzzzzzzzzzzzzzzzzzzzyzzzzzzxTzzzyDzzzzzzzzzzzzzzzzzzzzzzzzzzhTzzzzzzzzzzzzzRTzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyjDzzyzTzzzzzzzzzzzzzzzzzzjDTzzgDwzTTDDDDjTzzzzzySzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyyjTjDSTDzDDDDDDTTzzzzzzzzzwwyzyzRzzywzywywzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzhSwyxzxxzywwzyzzxzzzzzzzzzzzzzyjywTzzzzzzzzzzzzyyTzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzwwDzzzhDzzzzzzzzzzzzzzzzzzzzzzzyTSDzzzzzzzzzzzzzyTzzzzzzzzzzzzzzhxTzzzzzzzzjDzzzzjzzzzyjzzzzzzzzzzzzzzzzzzzzzzzzzxxjzzzzzjjTzzzzzzjzzzzzzTTzyhDzxThzzzzzzzzhxjzzzDzyjjzzxzzzzzzzzzzzzzxzzzzzzzzzzxzhjzzzzxBTzzzzzzxDzzzzzQTjzyxzyhRSRTzzzzzyyTzzyhTTSzzzyDzzzzzzzzzzzzzzzzzzzzzzzzxygzzzzyjjzzhTzzyjTzzzzgCzzzzhTzxQjCzyiTzzzxzzzgziRxBzywzzzzzzzzzzzzzzzzzzzzzzzzyzSzyjDzghTzxzTzzzjCijzyxDTDzjDzjzzwzTyTzzzxzzzghyjjwDzhQzzzzzzzzzzzzzzzzzzzzzzzzwjySjQjxhRzyRTzzzxzzzjzTyRwDyzzjTTzyzyyjzzygDziDSyxDxThxjTzzzzzzzzzzzzzzzzzzzzzzzyDwzjxBjQjhgTzzzzxwDyxhSzzxxARjQzzyzzyRzzzzyTyTxSyyTxwDxRzzzzzzzzzzzzzzzzzzzzzzzzhyjhTzxzzwzzzzzzzhjzzwzzzzzzzzzzzzzzziTzzzzzxxzzzyjTzzzzzzzzzzzzzzzzzzzzzzzzzzzzyjyiDzzzzzzzzzzzzyiDzzzzzzzzzzzzzzzzhRTzzzzzzzzzzzyzzzzzwDzzzzzzzzzzzzzzzzzzzzzzzyxTzTzzzzzzzzzzzzzhTzzzzzzzzzzzzzzzyxzzzzzzzzzzzzzyxzzzyzTzzzzzzzzzzzzzzzzzzzzzzzyTTzzzzzzzzzTzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzTwjzzzzzTzzzzzzzzzzzzzzxzzzzzzzzwTzzzzzzzzyhTzzzzzzzzzzxBjzxzxTxChDhChzzzzzzzzzyjzyDzzzxRTzzzzzzzzzzzzzzzzzzzzzzzizzzzzzzzzyhTzzzzzzzzzzyzjxCjxThzxjxSjzzzzzzzzzyjzwjzzzyTzzzzzzzzzzzzzzzzzzzzzzzyyzzzzzzzzzyhTzzzzzzzzzzzjyxQzxTizDTwRTzzzzzzzzzyjzzzzzzwTzzzzzzzzzzzzzzzzzzzzzzzyhzzzzzzzzzyhTzzzzzzzzzzyxzzzwzyxwzyzyzzzzzzzzzzyjzzzzzzgTzzzzzzzzzzzzzzzzzzzzzzzygTzzzzzzzzyhTzzzzzzzzzzz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" alt="The Hair Edit Salon" class="logo-img">
+    <div class="header-tagline">your personalised skin treatment guide</div>
   </div>
 
-  <div id="form-area">
-    <div class="form-section">
-      <span class="form-label">Your skin type</span>
-      <div class="chip-grid" id="skin-type-chips">
-        <button class="chip" data-group="skin" data-val="oily">Oily</button>
-        <button class="chip" data-group="skin" data-val="dry">Dry / Very Dry</button>
-        <button class="chip" data-group="skin" data-val="combination">Combination</button>
-        <button class="chip" data-group="skin" data-val="sensitive">Sensitive</button>
-        <button class="chip" data-group="skin" data-val="normal">Normal</button>
-        <button class="chip" data-group="skin" data-val="mature">Mature / Ageing</button>
+  <!-- FORM -->
+  <div id="form-section">
+
+    <!-- 1. Skin Type -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon si-rose">🌸</div>
+        <div>
+          <div class="section-title-text">Your skin type</div>
+          <div class="section-sub">Choose the one that best describes you</div>
+        </div>
+      </div>
+      <div class="chip-wrap" id="skin-chips">
+        <button class="chip" data-g="skin" data-v="oily">Oily</button>
+        <button class="chip" data-g="skin" data-v="dry">Dry / Very Dry</button>
+        <button class="chip" data-g="skin" data-v="combination">Combination</button>
+        <button class="chip" data-g="skin" data-v="sensitive">Sensitive</button>
+        <button class="chip" data-g="skin" data-v="normal">Normal</button>
+        <button class="chip" data-g="skin" data-v="mature">Mature / Ageing</button>
       </div>
     </div>
 
-    <div class="form-section">
-      <span class="form-label">Your skin concerns</span>
-      <p class="concern-note">Select all that apply</p>
-      <div class="chip-grid" style="margin-top:0.6rem" id="concern-chips">
-        <button class="chip" data-group="concern" data-val="tan">Sun tan / Dullness</button>
-        <button class="chip" data-group="concern" data-val="pigmentation">Pigmentation</button>
-        <button class="chip" data-group="concern" data-val="dehydration">Dehydration</button>
-        <button class="chip" data-group="concern" data-val="oiliness">Excess oil / Shine</button>
-        <button class="chip" data-group="concern" data-val="ageing">Fine lines / Ageing</button>
-        <button class="chip" data-group="concern" data-val="irritation">Redness / Irritation</button>
-        <button class="chip" data-group="concern" data-val="glow">Instant glow / Event ready</button>
-        <button class="chip" data-group="concern" data-val="acne">Acne / Breakouts</button>
-        <button class="chip" data-group="concern" data-val="texture">Uneven texture / Rough skin</button>
-        <button class="chip" data-group="concern" data-val="barrier">Damaged skin barrier</button>
+    <!-- 2. Concerns -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon si-lavender">✨</div>
+        <div>
+          <div class="section-title-text">Skin concerns</div>
+          <div class="section-sub">Select all that apply</div>
+        </div>
+      </div>
+      <div class="chip-wrap" id="concern-chips">
+        <button class="chip" data-g="concern" data-v="tan">Sun tan / Dullness</button>
+        <button class="chip" data-g="concern" data-v="pigmentation">Pigmentation</button>
+        <button class="chip" data-g="concern" data-v="dehydration">Dehydration</button>
+        <button class="chip" data-g="concern" data-v="oiliness">Excess oil / Shine</button>
+        <button class="chip" data-g="concern" data-v="ageing">Fine lines / Ageing</button>
+        <button class="chip" data-g="concern" data-v="irritation">Redness / Irritation</button>
+        <button class="chip" data-g="concern" data-v="glow">Instant glow / Event ready</button>
+        <button class="chip" data-g="concern" data-v="acne">Acne / Breakouts</button>
+        <button class="chip" data-g="concern" data-v="texture">Uneven texture</button>
+        <button class="chip" data-g="concern" data-v="barrier">Damaged skin barrier</button>
       </div>
     </div>
 
-    <div class="form-section">
-      <span class="form-label">Occasion / Timing</span>
-      <div class="chip-grid" id="occasion-chips">
-        <button class="chip" data-group="occasion" data-val="regular">Regular maintenance</button>
-        <button class="chip" data-group="occasion" data-val="bridal">Bridal / Pre-wedding</button>
-        <button class="chip" data-group="occasion" data-val="event">Upcoming event / Party</button>
-        <button class="chip" data-group="occasion" data-val="first">First-time facial</button>
+    <!-- 3. Treatment Type -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon si-mint">💆</div>
+        <div>
+          <div class="section-title-text">Treatment type</div>
+          <div class="section-sub">Optional — leave unselected to see all</div>
+        </div>
+      </div>
+      <div class="type-grid">
+        <div class="type-card" data-cat="cleanups">
+          <div class="type-card-icon">🌿</div>
+          <div class="type-card-name">Clean-ups</div>
+          <div class="type-card-sub">Quick refresh & glow</div>
+        </div>
+        <div class="type-card" data-cat="facials">
+          <div class="type-card-icon">🌸</div>
+          <div class="type-card-name">Facials</div>
+          <div class="type-card-sub">Belle Silk range</div>
+        </div>
+        <div class="type-card" data-cat="luxury">
+          <div class="type-card-icon">💎</div>
+          <div class="type-card-name">Luxury Facials</div>
+          <div class="type-card-sub">With moulding mask</div>
+        </div>
+        <div class="type-card" data-cat="skinora">
+          <div class="type-card-icon">🔬</div>
+          <div class="type-card-name">Skinora Treatments</div>
+          <div class="type-card-sub">Advanced medi-facials</div>
+        </div>
       </div>
     </div>
 
-    <div class="form-section">
-      <span class="form-label">Allergies / Ingredients to avoid</span>
-      <p class="concern-note">Select any you are allergic or sensitive to</p>
-      <div class="chip-grid" style="margin-top:0.6rem" id="allergy-chips">
-        <button class="chip" data-group="allergy" data-val="papaya">Papaya</button>
-        <button class="chip" data-group="allergy" data-val="vitamin_c">Vitamin C / Citrus</button>
-        <button class="chip" data-group="allergy" data-val="wine">Red Wine extracts</button>
-        <button class="chip" data-group="allergy" data-val="diamond">Diamond / Exfoliants</button>
-        <button class="chip" data-group="allergy" data-val="coconut">Coconut / Nut oils</button>
-        <button class="chip" data-group="allergy" data-val="turmeric">Turmeric / Saffron</button>
-        <button class="chip" data-group="allergy" data-val="avocado">Avocado</button>
-        <button class="chip" data-group="allergy" data-val="rice">Rice / Grain extracts</button>
-        <button class="chip" data-group="allergy" data-val="oxygen">Oxygen / Ozone treatments</button>
+    <!-- 4. Occasion -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon si-peach">📅</div>
+        <div>
+          <div class="section-title-text">Occasion</div>
+          <div class="section-sub">Optional</div>
+        </div>
+      </div>
+      <div class="chip-wrap" id="occasion-chips">
+        <button class="chip" data-g="occasion" data-v="regular">Regular maintenance</button>
+        <button class="chip" data-g="occasion" data-v="bridal">Bridal / Pre-wedding</button>
+        <button class="chip" data-g="occasion" data-v="event">Upcoming event / Party</button>
+        <button class="chip" data-g="occasion" data-v="first">First-time facial</button>
       </div>
     </div>
 
-    <button class="cta-btn" id="find-btn">Find My Treatments</button>
-  </div>
+    <!-- 5. Allergies -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon si-butter">⚠️</div>
+        <div>
+          <div class="section-title-text">Allergies to avoid</div>
+          <div class="section-sub">We'll exclude these from your results</div>
+        </div>
+      </div>
+      <div class="chip-wrap" id="allergy-chips">
+        <button class="chip" data-g="allergy" data-v="papaya">Papaya</button>
+        <button class="chip" data-g="allergy" data-v="vitamin_c">Vitamin C / Citrus</button>
+        <button class="chip" data-g="allergy" data-v="wine">Red Wine extracts</button>
+        <button class="chip" data-g="allergy" data-v="diamond">Diamond / Exfoliants</button>
+        <button class="chip" data-g="allergy" data-v="coconut">Coconut / Nut oils</button>
+        <button class="chip" data-g="allergy" data-v="turmeric">Turmeric / Saffron</button>
+        <button class="chip" data-g="allergy" data-v="avocado">Avocado</button>
+        <button class="chip" data-g="allergy" data-v="rice">Rice / Grain extracts</button>
+        <button class="chip" data-g="allergy" data-v="oxygen">Oxygen / Ozone</button>
+      </div>
+    </div>
 
-  <div class="results-wrap" id="results-wrap">
-    <div class="results-header">Your personalised picks</div>
-    <div class="results-sub" id="results-sub"></div>
+    <div class="cta-wrap">
+      <button class="cta-btn" id="find-btn">✦ Find My Treatments</button>
+    </div>
+
+  </div><!-- /form -->
+
+  <!-- RESULTS -->
+  <div id="results-section">
+    <div class="results-hero">
+      <div class="results-title">Your personalised picks ✦</div>
+      <div class="results-meta" id="results-meta"></div>
+    </div>
     <div id="results-content"></div>
-    <button class="reset-btn" id="reset-btn">Start over</button>
+    <button class="reset-btn" id="reset-btn">← Start over</button>
   </div>
+
 </div>
 
 <script>
-const state = { skin: null, concerns: new Set(), occasion: null, allergies: new Set() };
+const state = {skin:null, concerns:new Set(), types:new Set(), occasion:null, allergies:new Set()};
+
+const CAT_META = {
+  cleanups:{label:'Clean-ups', pill:'cp-rose', orb:'orb-rose'},
+  facials:{label:'Facials — Belle Silk', pill:'cp-lavender', orb:'orb-lavender'},
+  luxury:{label:'Luxury Facials (with Moulding Mask)', pill:'cp-mint', orb:'orb-mint'},
+  skinora:{label:'Skinora Facial Treatments', pill:'cp-peach', orb:'orb-peach'}
+};
 
 const TREATMENTS = {
-  cleanups: [
-    {
-      name: "Detan Clean-up",
-      icon: "☀",
-      desc: "Removes sun tan, dullness & uneven skin tone. Instant freshness & glow.",
-      skins: ["oily","combination","normal","sensitive","dry","mature"],
-      concerns: ["tan","oiliness","glow"],
-      occasions: ["regular","event","first"],
-      allergies: [],
-      boost: ["tan"],
-      note: "For sensitive skin, mild fruit-based detan used."
-    },
-    {
-      name: "Papaya Glow Clean-up",
-      icon: "🍑",
-      desc: "Fruit-based gentle exfoliation & brightening. Very mild — great for first-timers.",
-      skins: ["normal","dry","sensitive","mature"],
-      concerns: ["tan","glow","texture"],
-      occasions: ["regular","first","event"],
-      allergies: ["papaya"],
-      boost: ["glow","texture"],
-      note: "Ideal for teenagers & first-time clients."
-    },
-    {
-      name: "Diamond Radiance Clean-up",
-      icon: "💎",
-      desc: "Premium polish for instant luminous glow. Party-ready radiance.",
-      skins: ["normal","dry","combination","mature"],
-      concerns: ["glow","pigmentation","tan","texture"],
-      occasions: ["event","bridal","regular"],
-      allergies: ["diamond"],
-      boost: ["glow","event"],
-      note: "Not for very sensitive or active acne skin."
-    },
-    {
-      name: "Oxy Refresh Clean-up",
-      icon: "💧",
-      desc: "Oxygen-infused hydration for fresh, plump, dewy skin.",
-      skins: ["dry","sensitive","combination","normal"],
-      concerns: ["dehydration","glow","barrier","irritation"],
-      occasions: ["event","bridal","regular"],
-      allergies: ["oxygen"],
-      boost: ["dehydration","barrier"],
-      note: "Great for pollution-damaged or stressed skin."
-    },
-    {
-      name: "Skin Brightening Clean-up",
-      icon: "✨",
-      desc: "Enhances natural glow, evens skin tone & reduces dullness.",
-      skins: ["oily","combination","dry","normal","sensitive","mature"],
-      concerns: ["tan","pigmentation","glow","oiliness"],
-      occasions: ["regular","event","first"],
-      allergies: [],
-      boost: ["pigmentation","glow"],
-      note: "Can be customised for sensitive skin."
-    },
-    {
-      name: "Derma Repair Clean-up",
-      icon: "🌿",
-      desc: "Heals & repairs damaged skin barrier, soothes sensitivity & restores skin health.",
-      skins: ["sensitive","dry","normal"],
-      concerns: ["barrier","irritation","dehydration"],
-      occasions: ["regular","first"],
-      allergies: [],
-      boost: ["barrier","irritation"],
-      note: "Best when skin needs healing, not harsh treatment."
-    }
+  cleanups:[
+    {name:'Detan Clean-up',icon:'☀️',desc:'Removes sun tan, dullness & uneven skin tone. Instant freshness & glow.',skins:['oily','combination','normal','sensitive','dry','mature'],concerns:['tan','oiliness','glow'],occasions:['regular','event','first'],allergies:[],boost:['tan']},
+    {name:'Papaya Glow Clean-up',icon:'🍑',desc:'Fruit-based gentle exfoliation & brightening. Very mild — ideal for first-timers & teens.',skins:['normal','dry','sensitive','mature'],concerns:['tan','glow','texture'],occasions:['regular','first','event'],allergies:['papaya'],boost:['glow'],note:'Ideal for teenagers & first-time clients.'},
+    {name:'Diamond Radiance Clean-up',icon:'💎',desc:'Premium polish for instant luminous glow. Party-ready radiance.',skins:['normal','dry','combination','mature'],concerns:['glow','pigmentation','tan','texture'],occasions:['event','bridal','regular'],allergies:['diamond'],boost:['glow'],note:'Not for very sensitive or active acne skin.'},
+    {name:'Oxy Refresh Clean-up',icon:'💧',desc:'Oxygen-infused hydration for fresh, plump, dewy skin. Great for pollution-damaged skin.',skins:['dry','sensitive','combination','normal'],concerns:['dehydration','glow','barrier','irritation'],occasions:['event','bridal','regular'],allergies:['oxygen'],boost:['dehydration','barrier']},
+    {name:'Skin Brightening Clean-up',icon:'✨',desc:'Enhances natural glow, evens skin tone & reduces dullness. Suitable for all skin types.',skins:['oily','combination','dry','normal','sensitive','mature'],concerns:['tan','pigmentation','glow','oiliness'],occasions:['regular','event','first'],allergies:[],boost:['pigmentation','glow']},
+    {name:'Derma Repair Clean-up',icon:'🌿',desc:'Heals & repairs damaged skin barrier, soothes sensitivity & restores skin health.',skins:['sensitive','dry','normal'],concerns:['barrier','irritation','dehydration'],occasions:['regular','first'],allergies:[],boost:['barrier','irritation']}
   ],
-  facials: [
-    {
-      name: "Belle Silk Detan",
-      icon: "🌸",
-      desc: "Premium tan removal with silky smooth finish and nourishing glow.",
-      skins: ["normal","combination","dry","mature","oily"],
-      concerns: ["tan","texture","glow"],
-      occasions: ["regular","event"],
-      allergies: [],
-      boost: ["tan"],
-      note: "Use cautiously on very sensitive skin."
-    },
-    {
-      name: "Belle Silk Hydra Boost",
-      icon: "💧",
-      desc: "Deep moisture infusion for a soft, creamy, radiant finish.",
-      skins: ["dry","sensitive","normal","combination"],
-      concerns: ["dehydration","glow","barrier"],
-      occasions: ["regular","event","bridal"],
-      allergies: [],
-      boost: ["dehydration"],
-      note: "Perfect for AC/summer dehydration or pre-event."
-    },
-    {
-      name: "Belle Silk Red Wine",
-      icon: "🍷",
-      desc: "Luxury anti-ageing treatment with antioxidants for youthful glow.",
-      skins: ["dry","mature","normal","combination"],
-      concerns: ["ageing","glow","pigmentation"],
-      occasions: ["regular","bridal","event"],
-      allergies: ["wine"],
-      boost: ["ageing"],
-      note: "Focused on repair + radiance + fine lines."
-    },
-    {
-      name: "Belle Silk Vitamin C",
-      icon: "🍊",
-      desc: "Brightening treatment that reduces pigmentation & boosts clarity.",
-      skins: ["normal","combination","oily","dry","mature"],
-      concerns: ["pigmentation","tan","glow"],
-      occasions: ["regular","event"],
-      allergies: ["vitamin_c"],
-      boost: ["pigmentation"],
-      note: "Lightweight & non-greasy, suits oily skin too."
-    }
+  facials:[
+    {name:'Belle Silk Detan',icon:'🌸',desc:'Premium tan removal with silky smooth finish and nourishing glow.',skins:['normal','combination','dry','mature','oily'],concerns:['tan','texture','glow'],occasions:['regular','event'],allergies:[],boost:['tan']},
+    {name:'Belle Silk Hydra Boost',icon:'💧',desc:'Deep moisture infusion for a soft, creamy, radiant finish. Perfect for AC/summer dehydration.',skins:['dry','sensitive','normal','combination'],concerns:['dehydration','glow','barrier'],occasions:['regular','event','bridal'],allergies:[],boost:['dehydration']},
+    {name:'Belle Silk Red Wine',icon:'🍷',desc:'Luxury anti-ageing treatment enriched with antioxidants for a youthful glow.',skins:['dry','mature','normal','combination'],concerns:['ageing','glow','pigmentation'],occasions:['regular','bridal','event'],allergies:['wine'],boost:['ageing']},
+    {name:'Belle Silk Vitamin C',icon:'🍊',desc:'Brightening facial that reduces pigmentation & boosts clarity. Lightweight — suits oily skin.',skins:['normal','combination','oily','dry','mature'],concerns:['pigmentation','tan','glow'],occasions:['regular','event'],allergies:['vitamin_c'],boost:['pigmentation']}
   ],
-  luxury: [
-    {
-      name: "Kapeki Gensyl (Papaya & Marshmallow)",
-      icon: "☁",
-      desc: "Soft, soothing glow treatment. Papaya exfoliates, Marshmallow deeply hydrates.",
-      skins: ["sensitive","dry","normal"],
-      concerns: ["glow","dehydration","barrier"],
-      occasions: ["regular","first"],
-      allergies: ["papaya"],
-      boost: ["barrier","dehydration"],
-      note: "Gentle enough for the most sensitive skin."
-    },
-    {
-      name: "Kanpeki Dermasyl Blanch",
-      icon: "🌸",
-      desc: "Whitening & brightening with tone correction and luminous finish.",
-      skins: ["normal","combination","oily","mature"],
-      concerns: ["pigmentation","tan","glow"],
-      occasions: ["regular","event","bridal"],
-      allergies: [],
-      boost: ["pigmentation","tan"],
-      note: "Patch test recommended for very sensitive skin."
-    },
-    {
-      name: "Kanpeki Korean Glass Glow",
-      icon: "🇰🇷",
-      desc: "Hydration-focused glass skin treatment. Dewy, poreless & ultra-radiant.",
-      skins: ["dry","normal","combination","sensitive"],
-      concerns: ["dehydration","texture","glow"],
-      occasions: ["event","bridal","regular"],
-      allergies: [],
-      boost: ["texture","glow"],
-      note: "Not ideal for very oily acne-prone skin."
-    },
-    {
-      name: "Belle Silk Rice Water",
-      icon: "🍚",
-      desc: "Brightens, tightens pores & gives a soft glass-like glow.",
-      skins: ["oily","combination","normal"],
-      concerns: ["oiliness","texture","pigmentation","glow"],
-      occasions: ["regular","event"],
-      allergies: ["rice"],
-      boost: ["oiliness","texture"],
-      note: "Very dry skin: combine with hydration."
-    },
-    {
-      name: "Belle Silk Korean Glass",
-      icon: "💎",
-      desc: "Premium hydration + glow. Crystal-clear, smooth, poreless & dewy.",
-      skins: ["dry","normal","combination","sensitive"],
-      concerns: ["dehydration","texture","glow"],
-      occasions: ["event","bridal","regular"],
-      allergies: [],
-      boost: ["glow","texture"],
-      note: "Not for very oily acne-prone skin."
-    },
-    {
-      name: "Belle Silk Bridal Glow",
-      icon: "👰",
-      desc: "All-in-one bridal treatment: cleansing, hydration, brightening & polishing.",
-      skins: ["dry","oily","combination","normal","sensitive","mature"],
-      concerns: ["glow","pigmentation","texture","dehydration"],
-      occasions: ["bridal","event"],
-      allergies: [],
-      boost: ["bridal","glow"],
-      note: "Customised to your skin type. Camera-ready finish."
-    },
-    {
-      name: "Belle Silk O3 Whitening",
-      icon: "🌬",
-      desc: "Oxygen-based brightening to purify, brighten & refresh skin instantly.",
-      skins: ["oily","combination","normal","mature"],
-      concerns: ["tan","pigmentation","oiliness","glow"],
-      occasions: ["regular","event"],
-      allergies: ["oxygen"],
-      boost: ["acne","oiliness"],
-      note: "Very dry or sensitive skin: add hydration step."
-    }
+  luxury:[
+    {name:'Kapeki Gensyl — Papaya & Marshmallow',icon:'☁️',desc:'Soft, soothing glow. Papaya exfoliates, marshmallow deeply hydrates. Gentle enough for sensitive skin.',skins:['sensitive','dry','normal'],concerns:['glow','dehydration','barrier'],occasions:['regular','first'],allergies:['papaya'],boost:['barrier','dehydration']},
+    {name:'Kanpeki Dermasyl Blanch',icon:'🌸',desc:'Whitening & brightening with tone correction and luminous finish.',skins:['normal','combination','oily','mature'],concerns:['pigmentation','tan','glow'],occasions:['regular','event','bridal'],allergies:[],boost:['pigmentation','tan'],note:'Patch test recommended for very sensitive skin.'},
+    {name:'Kanpeki Korean Glass Glow',icon:'🇰🇷',desc:'Hydration-focused glass skin treatment. Dewy, poreless & ultra-radiant finish.',skins:['dry','normal','combination','sensitive'],concerns:['dehydration','texture','glow'],occasions:['event','bridal','regular'],allergies:[],boost:['texture','glow']},
+    {name:'Belle Silk Rice Water',icon:'🍚',desc:'Brightens, tightens pores & gives a soft glass-like glow. Ideal for oily & combination skin.',skins:['oily','combination','normal'],concerns:['oiliness','texture','pigmentation','glow'],occasions:['regular','event'],allergies:['rice'],boost:['oiliness','texture']},
+    {name:'Belle Silk Korean Glass',icon:'💎',desc:'Premium hydration + glow. Crystal-clear, smooth, poreless & dewy skin.',skins:['dry','normal','combination','sensitive'],concerns:['dehydration','texture','glow'],occasions:['event','bridal','regular'],allergies:[],boost:['glow','texture']},
+    {name:'Belle Silk Bridal Glow',icon:'👰',desc:'All-in-one bridal treatment: cleansing, hydration, brightening & polishing. Camera-ready finish.',skins:['dry','oily','combination','normal','sensitive','mature'],concerns:['glow','pigmentation','texture','dehydration'],occasions:['bridal','event'],allergies:[],boost:['bridal','glow']},
+    {name:'Belle Silk O3 Whitening',icon:'🌬️',desc:'Oxygen-based brightening to purify, brighten & refresh skin instantly.',skins:['oily','combination','normal','mature'],concerns:['tan','pigmentation','oiliness','glow'],occasions:['regular','event'],allergies:['oxygen'],boost:['acne','oiliness']}
   ],
-  skinora: [
-    {
-      name: "Skinora Citron & Seabuckthorn Mattifying",
-      icon: "🍋",
-      desc: "Oil-control & skin-balancing treatment for a clean matte finish.",
-      skins: ["oily","combination"],
-      concerns: ["oiliness","acne","texture"],
-      occasions: ["regular","event"],
-      allergies: ["vitamin_c"],
-      boost: ["oiliness","acne"],
-      note: "Ideal for summer or clients with excess shine."
-    },
-    {
-      name: "Skinora Kakadu Plum & Lakadong Turmeric Radiance",
-      icon: "🌼",
-      desc: "Intense Vitamin C glow + turmeric healing for radiant, even skin.",
-      skins: ["normal","combination","sensitive","mature","dry"],
-      concerns: ["pigmentation","tan","glow"],
-      occasions: ["regular","event"],
-      allergies: ["vitamin_c","turmeric"],
-      boost: ["pigmentation","tan"],
-      note: "Very soothing ingredients — suitable for sensitive skin too."
-    },
-    {
-      name: "Skinora Tucuma Butter & Coconut Milk Hydra",
-      icon: "🥥",
-      desc: "Deep nourishment & intense hydration with rich fatty acids.",
-      skins: ["dry","sensitive","normal"],
-      concerns: ["dehydration","barrier","texture"],
-      occasions: ["regular"],
-      allergies: ["coconut"],
-      boost: ["dehydration","barrier"],
-      note: "Perfect for winter dryness or AC dehydration damage."
-    },
-    {
-      name: "Skinora Snow Algae & Saffron Age Control",
-      icon: "❄",
-      desc: "Anti-ageing & skin rejuvenation with cell regeneration & radiance.",
-      skins: ["mature","dry","normal"],
-      concerns: ["ageing","glow","dehydration","texture"],
-      occasions: ["regular","bridal"],
-      allergies: ["turmeric"],
-      boost: ["ageing"],
-      note: "Preventive anti-ageing for normal skin too."
-    },
-    {
-      name: "Skinora Avocado & Oat Calming",
-      icon: "🥑",
-      desc: "Soothing, repair-focused treatment to calm, nourish & restore skin barrier.",
-      skins: ["sensitive","dry","normal"],
-      concerns: ["barrier","irritation","dehydration"],
-      occasions: ["regular","first"],
-      allergies: ["avocado"],
-      boost: ["barrier","irritation"],
-      note: "Ideal after waxing, bleach, or sun exposure."
-    }
+  skinora:[
+    {name:'Skinora Citron & Seabuckthorn Mattifying',icon:'🍋',desc:'Oil-control & skin-balancing for a clean matte finish. Ideal for summer & oily/combination skin.',skins:['oily','combination'],concerns:['oiliness','acne','texture'],occasions:['regular','event'],allergies:['vitamin_c'],boost:['oiliness','acne']},
+    {name:'Skinora Kakadu Plum & Lakadong Turmeric Radiance',icon:'🌼',desc:'Intense Vitamin C glow + turmeric healing for radiant, even skin. Soothing ingredients.',skins:['normal','combination','sensitive','mature','dry'],concerns:['pigmentation','tan','glow'],occasions:['regular','event'],allergies:['vitamin_c','turmeric'],boost:['pigmentation','tan']},
+    {name:'Skinora Tucuma Butter & Coconut Milk Hydra',icon:'🥥',desc:'Deep nourishment & intense hydration with rich fatty acids. Perfect for winter dryness.',skins:['dry','sensitive','normal'],concerns:['dehydration','barrier','texture'],occasions:['regular'],allergies:['coconut'],boost:['dehydration','barrier']},
+    {name:'Skinora Snow Algae & Saffron Age Control',icon:'❄️',desc:'Anti-ageing & cell regeneration treatment with saffron radiance. Preventive for normal skin too.',skins:['mature','dry','normal'],concerns:['ageing','glow','dehydration','texture'],occasions:['regular','bridal'],allergies:['turmeric'],boost:['ageing']},
+    {name:'Skinora Avocado & Oat Calming',icon:'🥑',desc:'Soothing, repair-focused to calm, nourish & restore skin barrier. Ideal post-waxing or sun exposure.',skins:['sensitive','dry','normal'],concerns:['barrier','irritation','dehydration'],occasions:['regular','first'],allergies:['avocado'],boost:['barrier','irritation']}
   ]
 };
 
-const CAT_LABELS = {
-  cleanups: "Clean-ups",
-  facials: "Facials",
-  luxury: "Luxury Facials (with Moulding Mask)",
-  skinora: "Facial Treatments — Skinora"
-};
-
-function scoreTreatment(t, skin, concerns, occasion, allergies) {
-  if (allergies.size > 0) {
-    for (const a of allergies) {
-      if (t.allergies.includes(a)) return null;
-    }
-  }
+function score(t, skin, concerns, occasion, allergies) {
+  for (const a of allergies) { if (t.allergies && t.allergies.includes(a)) return null; }
   if (skin && !t.skins.includes(skin)) return null;
-
-  let score = 0;
-  if (skin && t.skins.includes(skin)) score += 2;
-  if (occasion && t.occasions.includes(occasion)) score += 2;
-
+  let s = 0;
+  if (skin && t.skins.includes(skin)) s += 2;
+  if (occasion && t.occasions && t.occasions.includes(occasion)) s += 2;
   for (const c of concerns) {
-    if (t.concerns.includes(c)) score += 3;
-    if (t.boost.includes(c)) score += 2;
+    if (t.concerns && t.concerns.includes(c)) s += 3;
+    if (t.boost && t.boost.includes(c)) s += 2;
   }
-
-  if (occasion === "bridal" && t.boost.includes("bridal")) score += 5;
-  if (occasion === "event" && t.boost.includes("glow")) score += 2;
-  if (occasion === "first" && t.skins.includes("sensitive")) score += 1;
-
-  return score;
+  if (occasion === 'bridal' && t.boost && t.boost.includes('bridal')) s += 5;
+  if (occasion === 'event' && t.boost && t.boost.includes('glow')) s += 2;
+  return s;
 }
 
-document.querySelectorAll('.chip').forEach(btn => {
+// chip interactions
+document.querySelectorAll('.chip[data-g]').forEach(btn => {
   btn.addEventListener('click', () => {
-    const group = btn.dataset.group;
-    const val = btn.dataset.val;
-
-    if (group === 'skin' || group === 'occasion') {
-      document.querySelectorAll(`.chip[data-group="${group}"]`).forEach(b => b.classList.remove('selected'));
-      btn.classList.toggle('selected');
-      state[group] = btn.classList.contains('selected') ? val : null;
-    } else if (group === 'concern') {
-      btn.classList.toggle('selected');
-      if (btn.classList.contains('selected')) state.concerns.add(val);
-      else state.concerns.delete(val);
-    } else if (group === 'allergy') {
-      btn.classList.toggle('selected');
-      btn.classList.toggle('allergy-selected');
-      if (btn.classList.contains('allergy-selected')) state.allergies.add(val);
-      else state.allergies.delete(val);
+    const g = btn.dataset.g, v = btn.dataset.v;
+    if (g === 'skin' || g === 'occasion') {
+      const sel = g === 'skin' ? 'sel-rose' : 'sel-peach';
+      document.querySelectorAll(`.chip[data-g="${g}"]`).forEach(b => b.classList.remove(sel));
+      btn.classList.toggle(sel);
+      state[g] = btn.classList.contains(sel) ? v : null;
+    } else if (g === 'concern') {
+      btn.classList.toggle('sel-lavender');
+      if (btn.classList.contains('sel-lavender')) state.concerns.add(v);
+      else state.concerns.delete(v);
+    } else if (g === 'allergy') {
+      btn.classList.toggle('sel-allergy');
+      if (btn.classList.contains('sel-allergy')) state.allergies.add(v);
+      else state.allergies.delete(v);
     }
   });
 });
 
+// treatment type cards
+document.querySelectorAll('.type-card').forEach(card => {
+  card.addEventListener('click', () => {
+    card.classList.toggle('sel-type');
+    const cat = card.dataset.cat;
+    if (card.classList.contains('sel-type')) state.types.add(cat);
+    else state.types.delete(cat);
+  });
+});
+
 document.getElementById('find-btn').addEventListener('click', () => {
-  const { skin, concerns, occasion, allergies } = state;
-  if (!skin && concerns.size === 0) {
-    alert('Please select at least your skin type or a concern to get recommendations.');
+  if (!state.skin && state.concerns.size === 0) {
+    alert('Please select your skin type or at least one concern.');
     return;
   }
+  const {skin, concerns, types, occasion, allergies} = state;
+  const cats = types.size > 0 ? [...types] : Object.keys(TREATMENTS);
 
   const content = document.getElementById('results-content');
   content.innerHTML = '';
+  let total = 0;
 
-  let totalFound = 0;
-
-  for (const [cat, treatments] of Object.entries(TREATMENTS)) {
-    const scored = treatments
-      .map(t => ({ t, score: scoreTreatment(t, skin, concerns, occasion, allergies) }))
-      .filter(x => x.score !== null && x.score > 0)
-      .sort((a, b) => b.score - a.score);
+  for (const cat of cats) {
+    const meta = CAT_META[cat];
+    const scored = TREATMENTS[cat]
+      .map(t => ({t, s: score(t, skin, concerns, occasion, allergies)}))
+      .filter(x => x.s !== null && x.s >= 0)
+      .sort((a,b) => b.s - a.s);
 
     if (scored.length === 0) continue;
-    totalFound += scored.length;
+    total += scored.length;
 
     const block = document.createElement('div');
-    block.className = 'category-block';
-    block.innerHTML = `<div class="cat-label">${CAT_LABELS[cat]}</div>`;
+    block.className = 'cat-section';
+    block.innerHTML = `<div class="cat-pill ${meta.pill}">${meta.label}</div>`;
 
-    scored.forEach(({ t, score }, i) => {
+    scored.forEach(({t, s}, i) => {
       const card = document.createElement('div');
-      card.className = 'treatment-card' + (i === 0 && score > 4 ? ' top-pick' : '');
-      const badgeHtml = i === 0 && score > 4
-        ? `<span class="badge badge-top">Best match</span><br>`
-        : score > 2 ? `<span class="badge badge-good">Good match</span><br>` : '';
-
+      card.className = 'treatment-card' + (i === 0 && s > 4 ? ' top' : '');
+      const badge = i === 0 && s > 4
+        ? '<span class="badge badge-best">Best match ✦</span>'
+        : s > 2 ? '<span class="badge badge-good">Good match</span>' : '';
       card.innerHTML = `
-        <div class="tc-icon">${t.icon}</div>
+        <div class="tc-orb ${meta.orb}">${t.icon}</div>
         <div class="tc-body">
-          ${badgeHtml}
-          <div class="tc-name">${t.name}</div>
-          <div class="tc-why">${t.desc}</div>
-          ${t.note ? `<div class="tc-why" style="margin-top:4px; font-style:italic;">${t.note}</div>` : ''}
-        </div>
-      `;
+          <div class="tc-top">
+            <div class="tc-name">${t.name}</div>
+            ${badge}
+          </div>
+          <div class="tc-desc">${t.desc}</div>
+          ${t.note ? `<div class="tc-note">${t.note}</div>` : ''}
+        </div>`;
       block.appendChild(card);
     });
-
     content.appendChild(block);
   }
 
-  const sub = [];
-  if (skin) sub.push(skin.replace('_',' ') + ' skin');
-  if (concerns.size > 0) sub.push([...concerns].join(', ').replace(/_/g,' '));
-  document.getElementById('results-sub').textContent = `Based on: ${sub.join(' · ')}${allergies.size > 0 ? ' — allergies excluded' : ''}`;
+  const parts = [];
+  if (skin) parts.push(skin + ' skin');
+  if (concerns.size) parts.push([...concerns].join(', '));
+  if (occasion) parts.push(occasion);
+  const allergyNote = allergies.size ? ' • Allergies excluded' : '';
+  document.getElementById('results-meta').textContent = (parts.join(' · ') || 'All skin types') + allergyNote;
 
-  if (totalFound === 0) {
+  if (total === 0) {
     content.innerHTML = '<div class="no-results">No treatments matched your profile. Try adjusting your selections or speak with our team for a personalised consultation.</div>';
   }
 
-  document.getElementById('form-area').style.display = 'none';
-  const rw = document.getElementById('results-wrap');
-  rw.classList.add('visible');
-  rw.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('form-section').style.display = 'none';
+  document.getElementById('results-section').classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
 });
 
 document.getElementById('reset-btn').addEventListener('click', () => {
-  state.skin = null;
-  state.concerns.clear();
-  state.occasion = null;
-  state.allergies.clear();
-  document.querySelectorAll('.chip').forEach(b => { b.classList.remove('selected','allergy-selected'); });
-  document.getElementById('results-wrap').classList.remove('visible');
-  document.getElementById('form-area').style.display = 'block';
+  state.skin = null; state.concerns.clear(); state.types.clear(); state.occasion = null; state.allergies.clear();
+  document.querySelectorAll('.chip').forEach(b => b.classList.remove('sel-rose','sel-lavender','sel-mint','sel-peach','sel-butter','sel-allergy'));
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('sel-type'));
+  document.getElementById('results-section').classList.remove('show');
+  document.getElementById('form-section').style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
 });
 </script>
-</body></html>
+</body>
+</html>
